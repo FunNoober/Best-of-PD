@@ -1,0 +1,45 @@
+[gd_scene load_steps=6 format=2]
+
+[ext_resource path="res://assets/weapon-attachments/scripts/BaseLaserAttachment.gd" type="Script" id=1]
+
+[sub_resource type="SpatialMaterial" id=1]
+albedo_color = Color( 0, 0, 0, 1 )
+
+[sub_resource type="CubeMesh" id=2]
+
+[sub_resource type="SpatialMaterial" id=3]
+albedo_color = Color( 1, 0, 0, 1 )
+
+[sub_resource type="CubeMesh" id=4]
+
+[node name="Rifle-Laser" type="Spatial"]
+script = ExtResource( 1 )
+light = NodePath("LightParent/OmniLight")
+light_parent = NodePath("LightParent")
+ray = NodePath("RayCast")
+laser = NodePath("MeshInstance2")
+
+[node name="MeshInstance" type="MeshInstance" parent="."]
+transform = Transform( 0.171741, 0, 0, 0, 0.171741, 0, 0, 0, 0.44245, 0, 0, 0 )
+material_override = SubResource( 1 )
+mesh = SubResource( 2 )
+
+[node name="RayCast" type="RayCast" parent="."]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -0.431515 )
+enabled = true
+cast_to = Vector3( 0, 0, -100 )
+
+[node name="LightParent" type="Spatial" parent="."]
+
+[node name="OmniLight" type="OmniLight" parent="LightParent"]
+visible = false
+light_color = Color( 1, 0, 0, 1 )
+light_energy = 5.0
+shadow_enabled = true
+omni_range = 1.0
+omni_shadow_detail = 0
+
+[node name="MeshInstance2" type="MeshInstance" parent="."]
+transform = Transform( 0.0982962, 0, 0, 0, 0.0982962, 0, 0, 0, 0.0982962, 0, 0, 0 )
+material_override = SubResource( 3 )
+mesh = SubResource( 4 )

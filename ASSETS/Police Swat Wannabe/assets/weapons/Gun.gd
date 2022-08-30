@@ -2,15 +2,15 @@ extends Spatial
 
 export var mag_size : int = 10
 export var starting_mags : int = 3
-export var shoot_time : NodePath
-export var reload_time : NodePath
-export var sound : NodePath
-export var particles_spawn_pos : NodePath
 export var particles : PackedScene
 export var recoil : float = 3
 export var accuracy_normal : float = 5
 export var accuracy_aiming : float = 1
 
+export var shoot_time : NodePath
+export var reload_time : NodePath
+export var sound : NodePath
+export var particles_spawn_pos : NodePath
 export var sight : NodePath
 export var light : NodePath
 
@@ -23,6 +23,14 @@ var is_reloading : bool = false
 var is_aiming : bool = false
 
 signal shot
+
+enum fire_mode {
+	SAFETY,
+	AUTO,
+	SEMI
+}
+
+var cur_fire_mode = fire_mode.SEMI
 
 func _ready() -> void:
 	ammo_in_mag = mag_size
@@ -39,12 +47,25 @@ func _process(delta: float) -> void:
 	translation.z = lerp(translation.z, 0, delta * 3)
 	rotation_degrees.x = lerp(rotation_degrees.x, 0, delta * 3)
 	
+	if Input.is_action_just_pressed("weapon_fire_mode"):
+		cur_fire_mode += 1
+		if cur_fire_mode >= 3:
+			cur_fire_mode = 0
+		print(cur_fire_mode)
+	
 	if ammo_in_mag <= 0 and current_mags <= 0:
 		return
 
-	if Input.is_action_pressed("shoot"):
-		if can_shoot and ammo_in_mag > 0:
-			shoot()
+	if cur_fire_mode == fire_mode.AUTO:
+		if Input.is_action_pressed("shoot"):
+			if can_shoot and ammo_in_mag > 0:
+				shoot()
+				
+	if cur_fire_mode == fire_mode.SEMI:
+		if  Input.is_action_just_pressed("shoot"):
+			if can_shoot and ammo_in_mag > 0:
+				shoot()
+			
 	if ammo_in_mag <= 0 and current_mags > 0 and is_reloading == false:
 		get_node(reload_time).start()
 		is_reloading = true
@@ -71,10 +92,12 @@ func shoot():
 	else:
 		API.shoot_cast.rotation_degrees.y = rand_range(-accuracy_normal, accuracy_normal)
 		API.shoot_cast.rotation_degrees.x = rand_range(-accuracy_normal, accuracy_normal)
+	
+	API.player.add_trauma(0.1)
 
-func enable_light():
+func use_attachment():
 	if light != "":
-		get_node(light).light()
+		get_node(light).use()
 
 func reset_shoot():
 	can_shoot = true

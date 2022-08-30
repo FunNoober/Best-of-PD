@@ -1,0 +1,69 @@
+[gd_scene load_steps=8 format=2]
+
+[ext_resource path="res://assets/ai/enemy/scripts/SuspectAI.gd" type="Script" id=1]
+
+[sub_resource type="CapsuleShape" id=1]
+height = 2.0
+
+[sub_resource type="SpatialMaterial" id=3]
+albedo_color = Color( 1, 0, 0, 1 )
+
+[sub_resource type="CapsuleMesh" id=2]
+mid_height = 2.0
+
+[sub_resource type="SpatialMaterial" id=4]
+albedo_color = Color( 0, 0, 0, 1 )
+
+[sub_resource type="CubeMesh" id=5]
+
+[sub_resource type="CapsuleShape" id=6]
+radius = 3.0
+height = 16.0
+
+[node name="Suspect_Male_001" type="KinematicBody"]
+script = ExtResource( 1 )
+nav_agent_ref = NodePath("NavigationAgent")
+shoot_timer_ref = NodePath("Weapon/ShootTimer")
+shoot_cast_ref = NodePath("Weapon/ShootCast")
+vision_area_ref = NodePath("VisionArea")
+weapon_ref = NodePath("Weapon")
+vision_cast_ref = NodePath("VisionCast")
+mov_speed = 10.0
+
+[node name="BodyCollider" type="CollisionShape" parent="."]
+transform = Transform( 1, 0, 0, 0, -4.37114e-08, 1, 0, -1, -4.37114e-08, 0, 2, 0 )
+shape = SubResource( 1 )
+
+[node name="BodyVisual" type="MeshInstance" parent="."]
+transform = Transform( 1, 0, 0, 0, -4.37114e-08, 1, 0, -1, -4.37114e-08, 0, 2, 0 )
+material_override = SubResource( 3 )
+mesh = SubResource( 2 )
+
+[node name="Weapon" type="Spatial" parent="."]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 1.15803, 2, -0.761555 )
+
+[node name="GunVisual" type="MeshInstance" parent="Weapon"]
+transform = Transform( 0.166421, 0, 0, 0, 0.310331, 0, 0, 0, 1, 0, 0, 0 )
+material_override = SubResource( 4 )
+mesh = SubResource( 5 )
+
+[node name="ShootCast" type="RayCast" parent="Weapon"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 2.38419e-07, 0, -1 )
+enabled = true
+cast_to = Vector3( 0, 0, -100 )
+
+[node name="ShootTimer" type="Timer" parent="Weapon"]
+
+[node name="NavigationAgent" type="NavigationAgent" parent="."]
+avoidance_enabled = true
+
+[node name="VisionArea" type="Area" parent="."]
+
+[node name="CollisionShape" type="CollisionShape" parent="VisionArea"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 3, -12 )
+shape = SubResource( 6 )
+
+[node name="VisionCast" type="RayCast" parent="."]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2, -1 )
+enabled = true
+cast_to = Vector3( 0, 0, -100 )

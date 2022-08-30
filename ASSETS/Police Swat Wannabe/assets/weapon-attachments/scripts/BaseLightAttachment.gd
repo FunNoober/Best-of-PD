@@ -1,9 +1,8 @@
-extends Spatial
+extends Attachement
 
-var enabled : bool
 export var light : NodePath
 
-func light():
+func use():
 	if enabled == true:
 		enabled = false
 		get_node(light).hide()

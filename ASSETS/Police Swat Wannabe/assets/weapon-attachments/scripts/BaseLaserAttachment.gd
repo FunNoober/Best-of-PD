@@ -1,6 +1,5 @@
-extends Spatial
+extends Attachement
 
-var enabled : bool
 export var light : NodePath
 export var light_parent : NodePath
 export var ray : NodePath
@@ -13,8 +12,7 @@ func _process(delta: float) -> void:
 	if get_node(ray).is_colliding() == false:
 		get_node(light_parent).translation = Vector3(0,0,0)
 	
-
-func light():
+func use():
 	if enabled == true:
 		enabled = false
 		get_node(light).hide()

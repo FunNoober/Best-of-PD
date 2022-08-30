@@ -15,15 +15,24 @@ var is_sprinting : bool = false
 var stamina : float = 2.0
 var freelook : bool = false
 
-onready var cam = $CameraHolder/Camera
+onready var cam = $CameraHolder/CamRot/Camera
+
+export (OpenSimplexNoise) var noise
+export (float, 0, 1) var trauma = 0.0
+export (float, 0, 1) var decay = 0.6
+var time = 0.0
 
 func _ready() -> void:
 	Input.set_mouse_mode(Input.MOUSE_MODE_CAPTURED)
 	mov_speed = default_move_speed
-	API.shoot_cast = $CameraHolder/Camera/ShootCast
+	API.shoot_cast = $CameraHolder/CamRot/Camera/ShootCast
 	API.cam = cam
 	API.weapon_library = $CameraHolder/Weapons
 	API.aim_position = $CameraHolder/AimPosition
+	API.player = self
+
+func add_trauma(trauma_amount):
+	trauma = clamp(trauma + trauma_amount, 0, 1)
 
 func process_input(delta):
 	dir = Vector3()
@@ -47,8 +56,8 @@ func process_input(delta):
 	move_and_slide(vel * mov_speed)
 
 func move_and_tilt(imv, delta):
-	cam.rotate_x(-imv.y * 0.01)
-	cam.rotate_z(-imv.x * 0.01)
+#	cam.rotate_x(-imv.y * 0.01)
+#	cam.rotate_z(-imv.x * 0.01)
 	cam.rotation_degrees.x = clamp(cam.rotation_degrees.x, -1, 1)
 	cam.rotation_degrees.z = clamp(cam.rotation_degrees.z, -1, 1)
 	cam.rotation_degrees.x = lerp(cam.rotation_degrees.x, 0, delta * 3)
@@ -58,8 +67,8 @@ func weapon_move(imv, delta):
 	
 	for weapon in $CameraHolder/Weapons.get_children():
 		if weapon.is_aiming == false:
-			$CameraHolder/Weapons.translation.x = lerp($CameraHolder/Weapons.translation.x, imv.x * 0.1 + 0.989, delta * 10)
-			$CameraHolder/Weapons.translation.z = lerp($CameraHolder/Weapons.translation.z, imv.y * 0.1 + -1.573, delta * 10)
+			$CameraHolder/Weapons.translation.x = lerp($CameraHolder/Weapons.translation.x, imv.x * 0.2 + 0.989, delta * 10)
+			$CameraHolder/Weapons.translation.z = lerp($CameraHolder/Weapons.translation.z, imv.y * 0.2 + -1.573, delta * 10)
 	
 func lean(delta):
 	if is_leaning_left:
@@ -109,10 +118,21 @@ func _physics_process(delta: float) -> void:
 	sprint()
 	grounded = $IsOnFloor.is_colliding()
 	$CameraHolder.rotation_degrees.x = clamp($CameraHolder.rotation_degrees.x, -60, 60)
-	if Input.is_action_just_pressed("enable_light"):
+	if Input.is_action_just_pressed("use_attachment"):
 		for gun in API.weapon_library.get_children():
-			gun.enable_light()
+			gun.use_attachment()
 	freelook = Input.is_action_pressed("freelook")
+	
+	time += delta
+	var shake = trauma * trauma
+	cam.rotation_degrees.x = noise.get_noise_3d(time * 50, 0, 0) * shake * 100
+	cam.rotation_degrees.y = noise.get_noise_3d(time * 50, 0, 0) * shake * 100
+	cam.rotation_degrees.x = clamp(cam.rotation_degrees.x, -4, 4)
+	cam.rotation_degrees.y = clamp(cam.rotation_degrees.x, -4, 4)
+	
+	if trauma > 0:
+		trauma = trauma - (delta * decay)
+	
 
 func _input(event: InputEvent) -> void:
 	if event is InputEventMouseMotion:
@@ -120,5 +140,5 @@ func _input(event: InputEvent) -> void:
 			$CameraHolder.rotate_x(deg2rad(event.relative.y * .5 * -1))
 			self.rotate_y(deg2rad(event.relative.x * 0.5 * -1))
 		else:
-			cam.rotate_x(deg2rad(event.relative.y * .5 * -1))
-			cam.rotate_y(deg2rad(event.relative.x * 0.5 * -1))
+			cam.get_parent().rotate_x(deg2rad(event.relative.y * .5 * -1))
+			cam.get_parent().rotate_y(deg2rad(event.relative.x * 0.5 * -1))

@@ -1,8 +1,10 @@
-[gd_scene load_steps=6 format=2]
+[gd_scene load_steps=7 format=2]
 
 [ext_resource path="res://assets/player/Player.gd" type="Script" id=1]
 [ext_resource path="res://assets/weapons/AssaultRifle.tscn" type="PackedScene" id=2]
 [ext_resource path="res://assets/UserInterface.gd" type="Script" id=3]
+
+[sub_resource type="OpenSimplexNoise" id=4]
 
 [sub_resource type="CylinderShape" id=3]
 height = 4.0
@@ -12,6 +14,7 @@ mid_height = 2.0
 
 [node name="Player" type="KinematicBody"]
 script = ExtResource( 1 )
+noise = SubResource( 4 )
 
 [node name="BodyCollider" type="CollisionShape" parent="."]
 transform = Transform( 1, 0, 0, 0, 1, 1.06581e-14, 0, -1.06581e-14, 1, 0, 2, 0 )
@@ -24,12 +27,14 @@ mesh = SubResource( 2 )
 [node name="CameraHolder" type="Spatial" parent="."]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2, 0 )
 
-[node name="Camera" type="Camera" parent="CameraHolder"]
+[node name="CamRot" type="Spatial" parent="CameraHolder"]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0 )
+
+[node name="Camera" type="Camera" parent="CameraHolder/CamRot"]
 current = true
 fov = 90.0
 
-[node name="ShootCast" type="RayCast" parent="CameraHolder/Camera"]
+[node name="ShootCast" type="RayCast" parent="CameraHolder/CamRot/Camera"]
 enabled = true
 cast_to = Vector3( 0, 0, -100 )
 
@@ -84,3 +89,6 @@ size_flags_vertical = 6
 text = "3"
 align = 1
 valign = 1
+
+[node name="Center" type="Position3D" parent="."]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2, 0 )

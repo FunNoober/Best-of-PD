@@ -1,0 +1,10 @@
+[gd_scene format=2]
+
+[node name="BoxParent" type="Position3D"]
+
+[node name="Box" type="CSGBox" parent="."]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 3, 0 )
+use_collision = true
+width = 6.0
+height = 6.0
+depth = 6.0

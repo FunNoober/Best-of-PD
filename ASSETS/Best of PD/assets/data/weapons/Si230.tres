@@ -1,0 +1,13 @@
+[gd_resource type="Resource" load_steps=2 format=2]
+
+[ext_resource path="res://scripts/data/WeaponData.gd" type="Script" id=1]
+
+[resource]
+script = ExtResource( 1 )
+mag_size = 12
+mags = 3
+reload_time = 1.0
+shoot_delay = 0.1
+damage = 2.0
+weapon_name = "Si 230"
+fire_type = 0

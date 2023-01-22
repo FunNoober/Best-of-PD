@@ -1,0 +1,23 @@
+[gd_scene load_steps=4 format=2]
+
+[ext_resource path="res://assets/3d/weapons/player/Si P230.glb" type="PackedScene" id=1]
+[ext_resource path="res://scripts/weapons/Firearm.gd" type="Script" id=2]
+[ext_resource path="res://assets/data/weapons/Si230.tres" type="Resource" id=3]
+
+[node name="Si230" type="Spatial"]
+script = ExtResource( 2 )
+data = ExtResource( 3 )
+
+[node name="Si P230" parent="." instance=ExtResource( 1 )]
+transform = Transform( 0.246, 0, 0, 0, 0.246, 0, 0, 0, 0.246, 0, 0, 0 )
+
+[node name="ShootCast" type="RayCast" parent="."]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -0.46727, 0.252243, 0 )
+enabled = true
+cast_to = Vector3( -10, 0, 0 )
+
+[node name="ShootTimer" type="Timer" parent="."]
+one_shot = true
+
+[node name="ReloadTimer" type="Timer" parent="."]
+one_shot = true

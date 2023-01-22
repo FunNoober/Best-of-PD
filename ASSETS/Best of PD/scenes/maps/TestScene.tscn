@@ -1,0 +1,72 @@
+[gd_scene load_steps=9 format=2]
+
+[ext_resource path="res://prefabs/player/Player.tscn" type="PackedScene" id=1]
+[ext_resource path="res://assets/world/world.tres" type="Environment" id=2]
+[ext_resource path="res://prefabs/cover/Box.tscn" type="PackedScene" id=3]
+[ext_resource path="res://scripts/maps/MapLayout.gd" type="Script" id=4]
+[ext_resource path="res://prefabs/cover/Box2.tscn" type="PackedScene" id=5]
+[ext_resource path="res://prefabs/cover/Box3.tscn" type="PackedScene" id=6]
+[ext_resource path="res://scripts/tools/ItemSpawnLocation.gd" type="Script" id=7]
+[ext_resource path="res://prefabs/doors/Door.tscn" type="PackedScene" id=8]
+
+[node name="TestScene" type="Spatial"]
+
+[node name="Box" parent="." instance=ExtResource( 3 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -11.3 )
+
+[node name="Box2" parent="." instance=ExtResource( 3 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -21.2483 )
+
+[node name="Ground" type="CSGBox" parent="."]
+use_collision = true
+width = 64.0
+height = 0.2
+depth = 64.0
+
+[node name="DirectionalLight" type="DirectionalLight" parent="."]
+transform = Transform( 1, 0, 0, 0, 0.5, 0.866025, 0, -0.866025, 0.5, 0, 0, 0 )
+shadow_enabled = true
+
+[node name="WorldEnvironment" type="WorldEnvironment" parent="."]
+environment = ExtResource( 2 )
+
+[node name="Player" parent="." instance=ExtResource( 1 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -0.408876, -5.73695e-07, -3.09108 )
+
+[node name="Buildings" type="Spatial" parent="."]
+script = ExtResource( 4 )
+buildings = [ ExtResource( 3 ), ExtResource( 5 ), ExtResource( 6 ) ]
+
+[node name="Position3D" type="Position3D" parent="Buildings"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 16.834 )
+script = ExtResource( 7 )
+
+[node name="Position3D2" type="Position3D" parent="Buildings"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -18.0975, 0, 5.97551 )
+script = ExtResource( 7 )
+
+[node name="Position3D3" type="Position3D" parent="Buildings"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 23.1874, 0, -12.8006 )
+script = ExtResource( 7 )
+
+[node name="Position3D4" type="Position3D" parent="Buildings"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -16.6271, 0, -24.4509 )
+script = ExtResource( 7 )
+
+[node name="Position3D6" type="Position3D" parent="Buildings"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -23.8067, 0, -11.5276 )
+script = ExtResource( 7 )
+
+[node name="Position3D5" type="Position3D" parent="Buildings"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 29.1822, 0, 28.1449 )
+script = ExtResource( 7 )
+
+[node name="Door" parent="." instance=ExtResource( 8 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -2.84104, 1.6, -14.239 )
+open_angle = 105
+
+[node name="Door2" parent="." instance=ExtResource( 8 )]
+transform = Transform( -1, 0, -2.98023e-08, 0, 1, 0, 2.98023e-08, 0, -1, -2.84104, 1.6, -18.239 )
+open_angle = 60
+peek_angle = 165
+close_angle = -180

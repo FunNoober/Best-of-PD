@@ -1,4 +1,4 @@
-[gd_scene load_steps=9 format=2]
+[gd_scene load_steps=10 format=2]
 
 [ext_resource path="res://prefabs/player/Player.tscn" type="PackedScene" id=1]
 [ext_resource path="res://assets/world/world.tres" type="Environment" id=2]
@@ -8,6 +8,7 @@
 [ext_resource path="res://prefabs/cover/Box3.tscn" type="PackedScene" id=6]
 [ext_resource path="res://scripts/tools/ItemSpawnLocation.gd" type="Script" id=7]
 [ext_resource path="res://prefabs/doors/Door.tscn" type="PackedScene" id=8]
+[ext_resource path="res://prefabs/doors/DoorMirrored.tscn" type="PackedScene" id=9]
 
 [node name="TestScene" type="Spatial"]
 
@@ -62,11 +63,13 @@ transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 29.1822, 0, 28.1449 )
 script = ExtResource( 7 )
 
 [node name="Door" parent="." instance=ExtResource( 8 )]
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -2.84104, 1.6, -14.239 )
-open_angle = 105
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -2.8, 1.6, -14.3 )
+peek_angle_front = -15
+open_angle_front = -90
+peek_angle_back = 15
+open_angle_back = 90
+start_angle = 0
 
-[node name="Door2" parent="." instance=ExtResource( 8 )]
-transform = Transform( -1, 0, -2.98023e-08, 0, 1, 0, 2.98023e-08, 0, -1, -2.84104, 1.6, -18.239 )
-open_angle = 60
-peek_angle = 165
-close_angle = -180
+[node name="Door2" parent="." instance=ExtResource( 9 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -2.8, 1.6, -18.3 )
+start_angle = 0

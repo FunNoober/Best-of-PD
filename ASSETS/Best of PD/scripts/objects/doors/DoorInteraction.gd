@@ -1,4 +1,4 @@
-extends Area
+extends Interaction_Base
 
 signal Door_Action(action_type)
 enum DOOR_ACTION_TYPES {

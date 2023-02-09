@@ -8,16 +8,15 @@
 script = ExtResource( 2 )
 data = ExtResource( 3 )
 
-[node name="Si P230" parent="." instance=ExtResource( 1 )]
-transform = Transform( 0.246, 0, 0, 0, 0.246, 0, 0, 0, 0.246, 0, 0, 0 )
-
 [node name="ShootCast" type="RayCast" parent="."]
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -0.46727, 0.252243, 0 )
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -1.96727, 1.05224, 0 )
 enabled = true
-cast_to = Vector3( -10, 0, 0 )
+cast_to = Vector3( -100, 0, 0 )
 
 [node name="ShootTimer" type="Timer" parent="."]
 one_shot = true
 
 [node name="ReloadTimer" type="Timer" parent="."]
 one_shot = true
+
+[node name="Si P230" parent="." instance=ExtResource( 1 )]

@@ -10,11 +10,23 @@ config_version=4
 
 _global_script_classes=[ {
 "base": "Resource",
+"class": "Civilian_Data",
+"language": "GDScript",
+"path": "res://scripts/data/CivilianData.gd"
+}, {
+"base": "Spatial",
+"class": "Interaction_Base",
+"language": "GDScript",
+"path": "res://scripts/interactions/Interaction_Base.gd"
+}, {
+"base": "Resource",
 "class": "Weapon_Data",
 "language": "GDScript",
 "path": "res://scripts/data/WeaponData.gd"
 } ]
 _global_script_class_icons={
+"Civilian_Data": "",
+"Interaction_Base": "",
 "Weapon_Data": ""
 }
 
@@ -23,6 +35,10 @@ _global_script_class_icons={
 config/name="Best Of Pd"
 run/main_scene="res://scenes/maps/TestScene.tscn"
 config/icon="res://icon.png"
+
+[autoload]
+
+Init="*res://scripts/Init.gd"
 
 [display]
 

@@ -6,6 +6,7 @@ export var mags : int = 3
 export var reload_time : float = 3
 export var shoot_delay : float = 0.1
 export var damage : float = 2
+export var vertical_recoil : float = 0.6
 
 export var weapon_name : String
 

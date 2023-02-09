@@ -9,5 +9,6 @@ mags = 3
 reload_time = 1.0
 shoot_delay = 0.1
 damage = 2.0
+vertical_recoil = 0.6
 weapon_name = "Si 230"
 fire_type = 0

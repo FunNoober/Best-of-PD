@@ -8,3 +8,5 @@ use_collision = true
 width = 6.0
 height = 6.0
 depth = 6.0
+
+[node name="NavigationObstacle" type="NavigationObstacle" parent="Box"]

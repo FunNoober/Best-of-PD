@@ -1,12 +1,14 @@
-[gd_scene load_steps=7 format=2]
+[gd_scene load_steps=10 format=2]
 
 [ext_resource path="res://scripts/player/Player.gd" type="Script" id=1]
 [ext_resource path="res://prefabs/weapons/player/Si230.tscn" type="PackedScene" id=2]
 [ext_resource path="res://prefabs/player/Interactions.gd" type="Script" id=3]
+[ext_resource path="res://assets/themes/UserInterface_MasterTheme.tres" type="Theme" id=4]
+[ext_resource path="res://assets/fonts/Share_Tech_Mono/ShareTechMono-Regular.ttf" type="DynamicFontData" id=5]
 
 [sub_resource type="CapsuleShape" id=1]
 radius = 0.5
-height = 3.0
+height = 2.0
 
 [sub_resource type="SpatialMaterial" id=2]
 albedo_color = Color( 1, 0, 0, 1 )
@@ -14,11 +16,17 @@ albedo_color = Color( 1, 0, 0, 1 )
 [sub_resource type="CapsuleMesh" id=3]
 mid_height = 2.0
 
+[sub_resource type="DynamicFont" id=4]
+size = 32
+use_mipmaps = true
+use_filter = true
+font_data = ExtResource( 5 )
+
 [node name="Player" type="KinematicBody"]
 script = ExtResource( 1 )
 
 [node name="BodyCollider" type="CollisionShape" parent="."]
-transform = Transform( 1, 0, 0, 0, -4.37114e-08, 1, 0, -1, -4.37114e-08, 0, 2, 0 )
+transform = Transform( 1, 0, 0, 0, -4.37114e-08, 1, 0, -1, -4.37114e-08, 0, 1.5, 0 )
 shape = SubResource( 1 )
 
 [node name="IsOnFloor" type="RayCast" parent="BodyCollider"]
@@ -27,7 +35,7 @@ enabled = true
 cast_to = Vector3( 0, -0.1, 0 )
 
 [node name="CamRot" type="Spatial" parent="BodyCollider"]
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -4.37114e-09, 0.0999999 )
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -2.62268e-08, 0.6 )
 
 [node name="Camera" type="Camera" parent="BodyCollider/CamRot"]
 transform = Transform( 1, 0, 0, 0, -4.37114e-08, -1, 0, 1, -4.37114e-08, 0, 0, 0 )
@@ -37,12 +45,16 @@ script = ExtResource( 3 )
 [node name="Weapons" type="Spatial" parent="BodyCollider/CamRot/Camera"]
 
 [node name="Si230" parent="BodyCollider/CamRot/Camera/Weapons" instance=ExtResource( 2 )]
-transform = Transform( -3.09086e-08, -0.707107, -0.707107, -3.09086e-08, 0.707107, -0.707107, 1, 0, -4.37114e-08, 0.2, -0.6, -1.1 )
+transform = Transform( -8.74227e-09, -3.72529e-08, -0.2, -3.10862e-15, 0.2, -3.72529e-08, 0.2, 0, -8.74228e-09, 0, -0.625608, -0.9 )
 
 [node name="UseCast" type="RayCast" parent="BodyCollider/CamRot/Camera"]
 enabled = true
 cast_to = Vector3( 0, 0, -2 )
 collide_with_areas = true
+
+[node name="ShoutCast" type="RayCast" parent="BodyCollider/CamRot/Camera"]
+enabled = true
+cast_to = Vector3( 0, 0, -15 )
 
 [node name="MeshInstance" type="MeshInstance" parent="BodyCollider"]
 transform = Transform( 1, 0, 0, 0, -1, 8.74228e-08, 0, -8.74228e-08, -1, 0, 0, 0 )
@@ -56,3 +68,20 @@ skeleton = NodePath("../..")
 [node name="UIControl" type="Control" parent="UI"]
 anchor_right = 1.0
 anchor_bottom = 1.0
+theme = ExtResource( 4 )
+
+[node name="BodyCamLabel" type="Label" parent="UI/UIControl"]
+anchor_left = 1.0
+anchor_right = 1.0
+margin_left = -306.0
+margin_bottom = 77.0
+grow_horizontal = 0
+custom_colors/font_color = Color( 0.968627, 1, 0, 1 )
+custom_colors/font_color_shadow = Color( 0, 0, 0, 1 )
+custom_constants/shadow_offset_x = 2
+custom_constants/shadow_offset_y = 2
+custom_fonts/font = SubResource( 4 )
+text = "Police of Bowtown
+JeezPro AE94"
+align = 1
+valign = 1
